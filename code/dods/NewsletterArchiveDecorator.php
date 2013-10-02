@@ -24,7 +24,10 @@ function extraStatics(){
 	 */
 	function updateCMSFields($fields) {
 		if($link = $this->getLink()){
-			$fields->addFieldToTab("Root.Newsletter", new LiteralField("LinkLink", "<a href=\"$link\">view online link</a>"));
+			$fields->addFieldToTab("Root.Newsletter", new LiteralField("LinkLink", "<h3><a href=\"$link\">view online link</a></h3>"));
+		}
+		else {
+			$fields->addFieldToTab("Root.Newsletter", new LiteralField("LinkLink", "<p>There is no preview link, you need to setup a Newsletter Archive Page specifically for this newsletter.</p>"));
 		}
 	}
 
