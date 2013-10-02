@@ -16,6 +16,17 @@ function extraStatics(){
 		);
 	}
 
+	/**
+	 * Update the CMS fields specifically for Member
+	 * decorated by this NewsletterRole decorator.
+	 *
+	 * @param FieldSet $fields CMS fields to update
+	 */
+	function updateCMSFields($fields) {
+		if($link = $this->getLink()){
+			$fields->addFieldToTab("Root.Newsletter", new LiteralField("LinkLink", "<a href=\"$link\">view online link</a>"));
+		}
+	}
 
 	function getViewingPage() {
 		return $this->owner->ViewingPage();
@@ -35,7 +46,7 @@ function extraStatics(){
 	function Link()  {
 		$viewingPage = $this->ViewingPage();
 		if($viewingPage) {
-			return $viewingPage->Link("showonenewsletter")."/".$this->owner->ID;
+			return Director::absoluteBaseURL().$viewingPage->Link("showonenewsletter")."/".$this->owner->ID;
 		}
 	}
 
