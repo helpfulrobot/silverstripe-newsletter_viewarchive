@@ -43,7 +43,8 @@ function extraStatics(){
 		}
 	}
 
-	function Link()  {
+	function Link()  { return $this->getLink();}
+	function getLink()  {
 		$viewingPage = $this->ViewingPage();
 		if($viewingPage) {
 			return Director::absoluteBaseURL().$viewingPage->Link("showonenewsletter")."/".$this->owner->ID;
