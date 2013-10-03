@@ -7,7 +7,7 @@
 
 class NewsletterArchiveDecorator extends DataObjectDecorator {
 
-function extraStatics(){
+	function extraStatics(){
 		return array(
 			'casting' => array(
 				"ViewingPage" => "SiteTree",
@@ -23,7 +23,7 @@ function extraStatics(){
 	 * @param FieldSet $fields CMS fields to update
 	 */
 	function updateCMSFields($fields) {
-		if($link = $this->getLink()){
+		if($link = $this->owner->getLink()){
 			$fields->addFieldToTab("Root.Newsletter", new LiteralField("LinkLink", "<h3><a href=\"$link\">view online link</a></h3>"));
 		}
 		else {
@@ -48,6 +48,7 @@ function extraStatics(){
 
 	function Link()  { return $this->getLink();}
 	function getLink()  {
+		return "----------------";
 		$viewingPage = $this->ViewingPage();
 		if($viewingPage) {
 			return Director::absoluteBaseURL().$viewingPage->Link("showonenewsletter")."/".$this->owner->ID;
