@@ -70,7 +70,7 @@ class NewsletterArchiveDecorator_Email extends Extension {
 		$this->owner->populateTemplate(new ArrayData(array(
 			'Link' => $this->owner->newsletter->Link(),
 			'UnsubscribeLink' => $this->owner->UnsubscribeLink(),
-			'Newsletter' => $this->owner
+			'Newsletter' => $this->owner->newsletter
 		)));
 	}
 
