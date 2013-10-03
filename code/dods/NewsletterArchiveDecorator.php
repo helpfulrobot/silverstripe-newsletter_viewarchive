@@ -63,7 +63,7 @@ class NewsletterArchiveDecorator extends DataObjectDecorator {
 
 }
 
-class NewsletterArchiveDecorator_Email extends Extension {
+class NewsletterArchiveDecorator_Email extends extension {
 
 
 	function updateNewsletterEmail($newsletter){
