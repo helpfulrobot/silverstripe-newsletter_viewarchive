@@ -51,7 +51,7 @@ class NewsletterArchiveDecorator extends DataObjectDecorator {
 	function getLink()  {
 		$viewingPage = $this->owner->ViewingPage();
 		if($viewingPage) {
-			return Director::absoluteBaseURL().$viewingPage->Link("showonenewsletter")."/".$this->owner->UniqueCode;
+			return Director::absoluteURL($viewingPage->Link("showonenewsletter")."/".$this->owner->UniqueCode."/");
 		}
 	}
 
