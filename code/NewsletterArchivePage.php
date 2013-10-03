@@ -54,15 +54,14 @@ class NewsletterArchivePage_Controller extends Page_Controller {
 		}
 	}
 
-	function showonenewsletter($request) {
+	function showonenewsletter ($request){
 		if($newsletterUniqueCode = Convert::raw2sql($request->Param("ID"))) {
 			$this->newsletterUniqueCode = $newsletterUniqueCode;
-			if($newsletter = $this->Newsletter()) {
-				$this->Title = $newsletter->Subject;
-				$this->MetaTitle = $newsletter->Subject;
-				$this->Content = $newsletter->Content;
-				return array();
-			}
+			$templateName = ($newsletter && ($newsletter->Parent()->Template)) ? $newsletter->Parent()->Template : 'GenericEmail';
+			// Block stylesheets and JS that are not required (email templates should have inline CSS/JS)
+			Requirements::clear();
+			$email = new NewsletterEmail($newsletter);
+			return HTTP::absoluteURLs($email->getData()->renderWith($templateName));
 		}
 		return $this->httpError(404);
 	}

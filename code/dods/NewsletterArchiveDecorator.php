@@ -63,3 +63,14 @@ class NewsletterArchiveDecorator extends DataObjectDecorator {
 
 }
 
+class NewsletterArchiveDecorator_Email extends Extension {
+
+
+	function updateNewsletterEmail($newsletter){
+		$this->owner->populateTemplate(new ArrayData(array(
+			'Link' => $this->owner->newsletter->Link(),
+			'UnsubscribeLink' => $this->owner->UnsubscribeLink()
+		)));
+	}
+
+}
