@@ -38,7 +38,7 @@ class NewsletterArchivePage extends Page {
 
 class NewsletterArchivePage_Controller extends Page_Controller {
 
-	protected $newsletterID = 0;
+	protected $newsletterUniqueCode = "";
 
 	function NewsletterList() {
 		if($this->ShowHistoricList) {
@@ -49,21 +49,22 @@ class NewsletterArchivePage_Controller extends Page_Controller {
 	}
 
 	function Newsletter() {
-		if($this->newsletterID) {
-			return DataObject::get_by_id("Newsletter", $this->newsletterID);
+		if($this->newsletterUniqueCode) {
+			return DataObject::get_one("Newsletter", "UniqueCode = '".$this->newsletterUniqueCode."'");
 		}
 	}
 
 	function showonenewsletter($request) {
-		if($newsletterID = intval($request->Param("ID"))) {
-			$this->newsletterID = $newsletterID;
+		if($newsletterUniqueCode = Convert::raw2sql($request->Param("ID"))) {
+			$this->newsletterUniqueCode = $newsletterUniqueCode;
 			if($newsletter = $this->Newsletter()) {
 				$this->Title = $newsletter->Subject;
 				$this->MetaTitle = $newsletter->Subject;
 				$this->Content = $newsletter->Content;
+				return array();
 			}
 		}
-		return array();
+		return $this->httpError(404);
 	}
 
 }

@@ -9,10 +9,13 @@ class NewsletterArchiveDecorator extends DataObjectDecorator {
 
 	function extraStatics(){
 		return array(
+			'db' => array(
+				"UniqueCode" => "Varchar(32)"
+			),
 			'casting' => array(
 				"ViewingPage" => "SiteTree",
 				"Link" => "Varchar"
-			),
+			)
 		);
 	}
 
@@ -36,21 +39,25 @@ class NewsletterArchiveDecorator extends DataObjectDecorator {
 	}
 
 	function ViewingPage() {
-		if($this->owner->SentDate) {
-			if($this->owner->ParentID) {
-				$parent = DataObject::get_by_id("NewsletterType", $this->owner->ParentID);
-				if($parent) {
-					return DataObject::get_one("NewsletterArchivePage", "NewsletterTypeID = ".$parent->ID);
-				}
+		if($this->owner->ParentID) {
+			$parent = DataObject::get_by_id("NewsletterType", $this->owner->ParentID);
+			if($parent) {
+				return DataObject::get_one("NewsletterArchivePage", "NewsletterTypeID = ".$parent->ID);
 			}
 		}
 	}
 
 	function Link()  { return $this->getLink();}
 	function getLink()  {
-		$viewingPage = $this->ViewingPage();
+		$viewingPage = $this->owner->ViewingPage();
 		if($viewingPage) {
-			return Director::absoluteBaseURL().$viewingPage->Link("showonenewsletter")."/".$this->owner->ID;
+			return Director::absoluteBaseURL().$viewingPage->Link("showonenewsletter")."/".$this->owner->UniqueCode;
+		}
+	}
+
+	function onBeforeWrite(){
+		if(!$this->owner->UniqueCode) {
+			$this->owner->UniqueCode = uniqid();
 		}
 	}
 
